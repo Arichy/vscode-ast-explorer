@@ -70,7 +70,7 @@ export const supportedLanguageIds = [
   'javascript',
   'typescript',
   'json',
-  'lepus',
+  'html',
   'css',
   'vue',
 ];

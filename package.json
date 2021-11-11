@@ -1,8 +1,8 @@
 {
-  "name": "real-time-ast-explorer",
-  "displayName": "real-time-ast-explorer",
-  "description": "",
-  "version": "0.0.7",
+  "name": "vscode-ast-explorer",
+  "displayName": "vscode-ast-explorer",
+  "description": "Ast explorer as vscode extension.",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.61.0"
   },
@@ -13,16 +13,16 @@
     "*"
   ],
   "icon": "resources/logo.png",
-  "publisher": "xuyuqiarichy",
+  "publisher": "arichy",
   "main": "./out/src/extension.js",
   "repository": {
     "url": "https://github.com/Arichy/vscode-ast-explorer.git"
   },
   "contributes": {
     "configuration": {
-      "title": "real-time-ast-explorer",
+      "title": "vscode-ast-explorer",
       "properties": {
-        "rtae.highlightConfig": {
+        "ast.highlightConfig": {
           "type": "object",
           "properties": {
             "backgroundColor": {
@@ -33,7 +33,7 @@
             }
           }
         },
-        "rtae.reuseWebview": {
+        "ast.reuseWebview": {
           "type": "boolean",
           "default": false,
           "description": "是否所有的 AST 共用一个 webview"
@@ -42,7 +42,7 @@
     },
     "commands": [
       {
-        "command": "real-time-ast-explorer.show",
+        "command": "vscode-ast-explorer.show",
         "title": "show ast",
         "icon": {
           "dark": "./resources/icon-dark.png",
@@ -53,8 +53,8 @@
     "menus": {
       "editor/title": [
         {
-          "command": "real-time-ast-explorer.show",
-          "when": "editorLangId in rtae.supportedLanguageIds",
+          "command": "vscode-ast-explorer.show",
+          "when": "editorLangId in ast.supportedLanguageIds",
           "group": "navigation"
         }
       ]

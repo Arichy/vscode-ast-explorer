@@ -27,7 +27,7 @@ import {
   supportedLanguageIds,
 } from './utils';
 
-const configurationKey = 'rtae';
+const configurationKey = 'ast';
 
 const map = new Map<string, { webviewPanel: vscode.WebviewPanel }>();
 
@@ -234,7 +234,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // 注册命令
   const webviewDisposable = vscode.commands.registerCommand(
-    'real-time-ast-explorer.show',
+    'vscode-ast-explorer.show',
     () => {
       const curEditor = vscode.window.activeTextEditor;
       const id = curEditor.document.fileName;
