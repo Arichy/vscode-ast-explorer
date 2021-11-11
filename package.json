@@ -1,0 +1,96 @@
+{
+  "name": "real-time-ast-explorer",
+  "displayName": "real-time-ast-explorer",
+  "description": "",
+  "version": "0.0.7",
+  "engines": {
+    "vscode": "^1.61.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "icon": "resources/logo.png",
+  "publisher": "xuyuqiarichy",
+  "main": "./out/src/extension.js",
+  "repository": {
+    "url": "https://github.com/Arichy/vscode-ast-explorer.git"
+  },
+  "contributes": {
+    "configuration": {
+      "title": "real-time-ast-explorer",
+      "properties": {
+        "rtae.highlightConfig": {
+          "type": "object",
+          "properties": {
+            "backgroundColor": {
+              "type": "string"
+            },
+            "borderRadius": {
+              "type": "string"
+            }
+          }
+        },
+        "rtae.reuseWebview": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否所有的 AST 共用一个 webview"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "real-time-ast-explorer.show",
+        "title": "show ast",
+        "icon": {
+          "dark": "./resources/icon-dark.png",
+          "light": "./resources/icon-light.png"
+        }
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "real-time-ast-explorer.show",
+          "when": "editorLangId in rtae.supportedLanguageIds",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile && yarn run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "release": "standard-version"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.4",
+    "@types/lodash-es": "^4.17.5",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "14.x",
+    "@types/qs": "^6.9.7",
+    "@types/vscode": "^1.61.0",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
+    "@typescript-eslint/parser": "^4.31.1",
+    "@vscode/test-electron": "^1.6.2",
+    "eslint": "^7.32.0",
+    "glob": "^7.1.7",
+    "mocha": "^9.1.1",
+    "standard-version": "^9.3.2",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "color-name": "^1.1.4",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.merge": "^4.6.2",
+    "qs": "^6.10.1"
+  }
+}
