@@ -1,8 +1,15 @@
 # vscode-ast-explorer README
 
-command: show ast.Or click ast button at supported language editor's title area.
+This project is based on [astexplorer](https://github.com/fkling/astexplorer).
+It makes you to see the ast of your code.
 
-Supported languages:
+# How to use
+- command: show ast.
+
+- or click ast button at supported language editor's title area.
+![alt command](https://github.com/Arichy/vscode-ast-explorer/raw/main/resources/markdown/usage.gif)
+
+# Supported languages:
 
 - `javascript`
 - `typescript`
@@ -11,14 +18,14 @@ Supported languages:
 - `css`
 - `vue`
 
-# 默认配置文件
+# Default Configuration
 
 ```json
 {
   "ast.highlightConfig": {
-    "backgroundColor": "rgba(255,240,6,0.4)", // 高亮背景色
-    "borderRadius": "3px" // 高亮区域 border-radius
+    "backgroundColor": "rgba(255,240,6,0.4)", // highlight backgroundColor
+    "borderRadius": "3px" // highlight border-radius
   },
-  "ast.reuseWebview": false // 是否复用同一个 webview
+  "ast.reuseWebview": false // Does all ast open in one webview?
 }
 ```
