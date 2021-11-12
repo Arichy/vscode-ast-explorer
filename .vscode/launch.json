@@ -14,6 +14,19 @@
       "preLaunchTask": "${defaultBuildTask}"
     },
     {
+      "name": "Webpack Run Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "preLaunchTask": "npm: webpack-dev"
+    },
+    {
+      "name": "Raw Run Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"]
+    },
+    {
       "name": "Extension Tests",
       "type": "extensionHost",
       "request": "launch",
