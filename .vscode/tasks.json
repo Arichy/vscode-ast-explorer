@@ -13,19 +13,22 @@
       },
       "group": {
         "kind": "build",
-        "isDefault": true
+        "isDefault": false
       }
     },
     {
       "type": "npm",
       "script": "webpack-dev",
-      "problemMatcher": [],
+      "problemMatcher": "$ts-webpack-watch",
       "isBackground": true,
       "label": "npm: webpack-dev",
       "presentation": {
         "reveal": "never"
       },
-      "group": "build"
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }
