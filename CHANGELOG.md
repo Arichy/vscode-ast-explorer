@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/Arichy/vscode-ast-explorer/compare/v0.0.4...v1.0.0) (2022-08-27)
+
+
+### Features
+
+* activate at `onStartupFinished` ([b1c44a2](https://github.com/Arichy/vscode-ast-explorer/commit/b1c44a2804f1f3eeab0fa108384cd49d2a3017ad))
+
 ### 0.0.4 (2022-08-27)
 
 
