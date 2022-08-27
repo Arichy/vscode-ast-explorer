@@ -36,7 +36,7 @@
         "ast.reuseWebview": {
           "type": "boolean",
           "default": false,
-          "description": "是否所有的 AST 共用一个 webview"
+          "description": "Enable singleton mode (recommended, only one webview)"
         }
       }
     },
@@ -67,6 +67,7 @@
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
+    "compile-web": "cd web && yarn build",
     "webpack-dev": "cross-env NODE_ENV=development webpack --mode development --watch",
     "compile": "rm -rf dist && cross-env NODE_ENV=production webpack --mode production",
     "release": "standard-version"

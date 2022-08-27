@@ -55,7 +55,7 @@ let highlightDecorationType = vscode.window.createTextEditorDecorationType(
 // --- section start: bridge ---
 
 /**
- * @description 发送 editor 的信息：语言、相对路径。当前文本 给 webview
+ * @description send editor's information (language, relative path,current text) to webview
  */
 const sendEditorInfoToWebview = (id: string, editor: vscode.TextEditor) => {
   let webviewPanel: vscode.WebviewPanel = null;
@@ -72,20 +72,19 @@ const sendEditorInfoToWebview = (id: string, editor: vscode.TextEditor) => {
     webviewPanel.title = getWebviewPanelTitle(id);
   }
 
-  // 发送当前 id 给 webview
-  // sendReduxToWebview(webviewPanel.webview, setId, id);
+  // send current id (absolute path) to webview
   webviewPanel.webview.postMessage(sendId(id));
 
-  // 更改代码语言，即 webview 中的 category
+  // send ext, which is astexplorer's category
   const ext = path.extname(id);
   webviewPanel.webview.postMessage(sendExt(id, ext));
 
-  // 发送文件相对路径，在 webview 中显示
+  // send file relative path shown in webview
   const rootPath = vscode.workspace.workspaceFolders[0].uri.path;
   const relativePath = path.relative(rootPath, id);
   webviewPanel.webview.postMessage(sendFilePath(id, relativePath));
 
-  // 将当前文本发送给 webview 用于初始化首屏 AST
+  // send current editor's text to webview to render the initiate AST
   const text = editor.document.getText();
   sendTextChangeToWebview(webviewPanel.webview, id, text);
 };
@@ -95,7 +94,7 @@ const getTargetEditor = (id: string): vscode.TextEditor => {
 
   let targetEditor: vscode.TextEditor = null;
 
-  // 在所有 visible editors 里，筛选展示当前 document 的，然后优先选择 currentActiveEditor
+  // choose editor for id, current active editor as a priority
   for (const editor of editors) {
     if (getDocumentId(editor.document) === id) {
       if (vscode.window.activeTextEditor === editor) {
@@ -160,12 +159,12 @@ function createWebviewPanel(
 
   webviewPanel.webview.html = getWebViewContent(context, 'web_dist/index.html');
 
-  // 插件监听 webview 发送过来的消息
+  // listen to messages sent by webview
   webviewPanel.webview.onDidReceiveMessage((message) => {
     console.log('[message from webview]', message);
     switch (message.type) {
       case WEBVIEW_REACT_DIDMOUNT:
-        // webview 初始化完成
+        // webview react didmount(useEffect)
         sendEditorInfoToWebview(id, editorWhenCreateWebview);
         return;
 
@@ -181,7 +180,7 @@ function createWebviewPanel(
 
   webviewPanel.onDidDispose(
     () => {
-      // webview 关闭后，复用时设置单例为空，非复用时删除对应的 map
+      // when webview is closed, set singleton to null in reuse mode, delete id in map in non-reuse mode
       if (config.reuseWebview) {
         webviewPanelSingleton = null;
       } else {
@@ -225,14 +224,14 @@ export function activate(context: vscode.ExtensionContext) {
     config.highlightConfig
   );
 
-  // 注册 context，在 package.json editor/title 里用
+  // register context used in package.json editor/title
   vscode.commands.executeCommand(
     'setContext',
     `${configurationKey}.supportedLanguageIds`,
     supportedLanguageIds
   );
 
-  // 注册命令
+  // register commands
   const webviewDisposable = vscode.commands.registerCommand(
     'vscode-ast-explorer.show',
     () => {
@@ -249,7 +248,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  // 更新配置文件相关
+  // configuration updated
   vscode.workspace.onDidChangeConfiguration((e) => {
     // @ts-ignore
     const newConfig = vscode.workspace.getConfiguration(
@@ -263,7 +262,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
   });
 
-  // 监听当前文本变化
+  // current editor's text changed
   vscode.workspace.onDidChangeTextDocument((e) => {
     const changedFilePath = e.document.fileName;
     const id = changedFilePath;
@@ -285,7 +284,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
   });
 
-  // 监听当前 editor 变化，即从一个文件切到了另一个文件，切换对应的 AST webview
+  // when current active editor changes (switch from one editor to another), switch to the corresponding AST webview
   vscode.window.onDidChangeActiveTextEditor((editor) => {
     if (!editor) {
       return;
@@ -309,7 +308,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
   });
 
-  // 监听当前 cursor 变化
+  // current cursor changed
   vscode.window.onDidChangeTextEditorSelection((e) => {
     const { textEditor } = e;
 
@@ -333,18 +332,18 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     const { selections } = e;
-    // 筛选出【改变 cursor 位置】这个行为
+    // filter the [cursor change] action
 
-    // 这个行为只会有一个选中部分
+    // this action must have only one selection
     if (selections.length === 1) {
       const [selection] = selections;
 
-      // 这个行为选中部分开始结束应该一致
+      // this action's start should be the same as end
       if (
         selection.start.line === selection.end.line &&
         selection.start.character === selection.end.character
       ) {
-        // 发送当前 cursor 给 webview。因为 redux 里有对应的 action，所以直接发送 redux action 就可以
+        // send current cursor to webview to jump to the corresponding AST node. It's defined by webview's redux.
         const cursorOffset = textEditor.document.offsetAt(selection.start);
 
         sendReduxToWebview(webviewPanel.webview, id, setCursor, cursorOffset);
@@ -362,7 +361,7 @@ export function activate(context: vscode.ExtensionContext) {
     if (config.reuseWebview) {
     } else {
       if (map.has(id)) {
-        // 一个文档关闭时，关掉对应 webview
+        // when a document is closed, close its webview
         const { webviewPanel } = map.get(id);
         webviewPanel.dispose();
         map.delete(id);

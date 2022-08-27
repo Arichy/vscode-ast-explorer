@@ -76,32 +76,32 @@ function App({ showTransformer, hasError }) {
       }
 
       switch (e.data.type) {
-        // 获得当前文件的扩展名
+        // get ext
         case SEND_EXT:
           const { ext } = e.data;
 
-          // 根据扩展名获得 category id
+          // get category id by ext
           const categoryId = extToCategoryIdMap[ext] || 'javascript';
 
-          // 根据 category id 获得 category
+          // ge tcategory by category id 
           const category = getCategoryByID(categoryId);
 
-          //  修改 category
+          // update category
           store.dispatch(selectCategory(category));
 
           if (extToParserIdMap[ext]) {
-            // 根据扩展名获得 parser id
+            // get parser id by ext
             const parserId = extToParserIdMap[ext];
 
-            // 根据 parser id 获得 parser
+            // get parser by parser id
             const parser = getParserByID(parserId);
 
-            // 修改 parser
+            // change parser
             store.dispatch(setParser(parser));
           }
           return;
 
-        // 获得当前文件的相对路径
+        // get relative path
         case SEND_FILEPATH:
           const { filepath } = e.data;
           if (filepath) {
@@ -110,7 +110,7 @@ function App({ showTransformer, hasError }) {
 
           return;
 
-        // 获得 redux action
+        // get redux action
         case REDUX_MESSAGE:
           store.dispatch(e.data.reduxAction);
           return;
@@ -128,7 +128,7 @@ function App({ showTransformer, hasError }) {
     };
   }, []);
 
-  // 注册 ASToutput 发送的事件，转发给 vscode
+  // forward events fired by ASToutput to vscode
   React.useEffect(() => {
     if (!window.vscode) {
       return;

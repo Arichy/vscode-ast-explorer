@@ -1,7 +1,7 @@
 # vscode-ast-explorer README
 
 This project is based on [astexplorer](https://github.com/fkling/astexplorer).
-It makes you to see the ast of your code.
+It allows you to see and interact with the ast of your code easily.
 
 # How to use
 - command: show ast.
