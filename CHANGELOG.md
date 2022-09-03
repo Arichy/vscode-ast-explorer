@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/Arichy/vscode-ast-explorer/compare/v1.0.0...v1.1.0) (2022-09-03)
+
+
+### Features
+
+* support `jsx` and `tsx` ([81b1306](https://github.com/Arichy/vscode-ast-explorer/commit/81b130678105e8fead6a41f33cdda091dc22f4d9))
+
 ## [1.0.0](https://github.com/Arichy/vscode-ast-explorer/compare/v0.0.4...v1.0.0) (2022-08-27)
 
 
