@@ -6,8 +6,11 @@ export const extToCategoryIdMap = {
   '.lepus': 'javascript',
   '.vue': 'vue',
   '.css': 'css',
+  '.tsx': 'javascript',
+  '.jsx': 'javascript',
 };
 
 export const extToParserIdMap = {
   '.ts': 'typescript',
+  '.tsx': 'typescript',
 };

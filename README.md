@@ -13,6 +13,8 @@ It allows you to see and interact with the ast of your code easily.
 
 - `javascript`
 - `typescript`
+- `jsx`
+- `tsx`
 - `json`
 - `html`
 - `css`

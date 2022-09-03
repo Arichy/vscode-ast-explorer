@@ -69,6 +69,8 @@ export function getWebviewPanelTitle(id: string): string {
 export const supportedLanguageIds = [
   'javascript',
   'typescript',
+  'typescriptreact',
+  'javascriptreact',
   'json',
   'html',
   'css',

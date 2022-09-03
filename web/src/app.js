@@ -83,7 +83,7 @@ function App({ showTransformer, hasError }) {
           // get category id by ext
           const categoryId = extToCategoryIdMap[ext] || 'javascript';
 
-          // ge tcategory by category id 
+          // get category by category id 
           const category = getCategoryByID(categoryId);
 
           // update category
