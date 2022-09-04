@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Arichy/vscode-ast-explorer/compare/v1.1.0...v1.2.0) (2022-09-04)
+
+
+### Features
+
+* add setting to hide the editor title button ([018d307](https://github.com/Arichy/vscode-ast-explorer/commit/018d307a3b29d3336cf740a7154ecb8ee1f08083))
+* hide `AST Explorer` title in `Toolbar` ([fb28bab](https://github.com/Arichy/vscode-ast-explorer/commit/fb28babb68db600c3fe607e769766fba96d46e96))
+* support `.scss`, `.less` ([6c97f64](https://github.com/Arichy/vscode-ast-explorer/commit/6c97f6461d3c804252e7d35afff92a2522b6f3b4))
+
 ## [1.1.0](https://github.com/Arichy/vscode-ast-explorer/compare/v1.0.0...v1.1.0) (2022-09-03)
 
 
