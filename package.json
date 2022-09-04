@@ -2,6 +2,7 @@
   "name": "vscode-ast-explorer",
   "displayName": "vscode-ast-explorer",
   "description": "Ast explorer as vscode extension.",
+  "author": "Arichy",
   "version": "1.1.0",
   "license": "MIT",
   "engines": {
@@ -74,9 +75,11 @@
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "compile-web": "cd web && yarn build",
+    "watch-web": "cd web && yarn watch",
     "webpack-dev": "cross-env NODE_ENV=development webpack --mode development --watch",
     "compile": "rm -rf dist && cross-env NODE_ENV=production webpack --mode production",
-    "release": "standard-version"
+    "release": "standard-version",
+    "updateDeps": "node scripts/updateWebDependencies.js"
   },
   "devDependencies": {
     "@types/glob": "^7.1.4",
@@ -88,6 +91,7 @@
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
     "@vscode/test-electron": "^1.6.2",
+    "axios": "^0.27.2",
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "glob": "^7.1.7",

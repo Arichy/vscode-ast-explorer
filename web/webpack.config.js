@@ -6,16 +6,12 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
-
 const DEV = process.env.NODE_ENV !== 'production';
 const CACHE_BREAKER = Number(
   fs.readFileSync(path.join(__dirname, 'CACHE_BREAKER'))
 );
 
 const plugins = [
-  // new BundleAnalyzerPlugin(),
   new webpack.DefinePlugin({
     'process.env.API_HOST': JSON.stringify(process.env.API_HOST || ''),
   }),
@@ -55,16 +51,6 @@ const plugins = [
     /load-rules/,
     __dirname + '/src/parsers/js/transformers/eslint1/loadRulesShim.js'
   ),
-
-  // There seems to be a problem with webpack loading an index.js file that
-  // is executable. If we change that to explicitly reference index.js, it seems
-  // to work. The problem is in the csstree module and this is a really hacky
-  // solution.
-  new webpack.NormalModuleReplacementPlugin(/\.\.\/data/, (module) => {
-    if (/css-tree/.test(module.context)) {
-      module.request += '/index.js';
-    }
-  }),
 
   // More shims
 
@@ -146,6 +132,12 @@ module.exports = Object.assign(
           },
         },
         {
+          issuer: /eslint8/,
+          resolve: {
+            mainFields: ['browser', 'main', 'module'],
+          },
+        },
+        {
           test: [/\/CLIEngine/, /\/globby/],
           issuer: /\/@typescript-eslint\//,
           use: 'null-loader',
@@ -154,6 +146,28 @@ module.exports = Object.assign(
           test: /\.txt$/,
           exclude: /node_modules/,
           loader: 'raw-loader',
+        },
+        // @swc/wasm-web uses a build target assumes to run _without_ bundler, in result
+        // contains incompatible syntax to webpack@4 (import.meta.url).
+        // in here, augment import.meta with custom loader, also provides path to wasm binary
+        // for its initializer to correctly import wasm binary.
+        {
+          test: /\wasm.js$/,
+          include: [path.join(__dirname, 'node_modules', '@swc', 'wasm-web')],
+          loader: require.resolve('@open-wc/webpack-import-meta-loader'),
+        },
+        {
+          test: /.wasm$/,
+          type: 'javascript/auto',
+          include: [path.join(__dirname, 'node_modules', '@swc', 'wasm-web')],
+          loader: 'file-loader',
+        },
+        // This rule is needed to make sure *.mjs files in node_modules are
+        // interpreted as modules.
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
         },
         {
           test: /\.(jsx?|mjs)$/,
@@ -184,6 +198,7 @@ module.exports = Object.assign(
             path.join(__dirname, 'node_modules', '@babel/eslint-parser'),
             path.join(__dirname, 'node_modules', 'babel-eslint'),
             path.join(__dirname, 'node_modules', 'babel-eslint8'),
+            path.join(__dirname, 'node_modules', 'css-tree'),
             path.join(__dirname, 'node_modules', 'jsesc'),
             path.join(__dirname, 'node_modules', 'eslint-visitor-keys'),
             path.join(__dirname, 'node_modules', 'babel7'),
@@ -206,6 +221,7 @@ module.exports = Object.assign(
             path.join(__dirname, 'node_modules', 'regexpp'),
             path.join(__dirname, 'node_modules', 'simple-html-tokenizer'),
             path.join(__dirname, 'node_modules', 'symbol-observable', 'es'),
+            path.join(__dirname, 'node_modules', '@swc', 'wasm-web'),
             path.join(__dirname, 'node_modules', 'typescript-eslint-parser'),
             path.join(__dirname, 'node_modules', 'webidl2'),
             path.join(__dirname, 'node_modules', 'tslint'),

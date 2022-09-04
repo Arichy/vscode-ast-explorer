@@ -29,6 +29,20 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "type": "npm",
+      "script": "watch-web",
+      "problemMatcher": "$ts-webpack-watch",
+      "isBackground": true,
+      "label": "npm: watch-web",
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      }
     }
   ]
 }
