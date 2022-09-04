@@ -1,9 +1,9 @@
 import defaultParserInterface from './utils/defaultCSSParserInterface';
 import pkg from 'postcss/package.json';
-import * as builtIn from 'postcss/lib/parse';
-import * as scss from 'postcss-scss/lib/scss-parse';
+import builtIn from 'postcss/lib/parse';
+import scss from 'postcss-scss/lib/scss-parse';
 import * as less from 'postcss-less/lib';
-import * as safe from 'postcss-safe-parser';
+import safe from 'postcss-safe-parser';
 
 const ID = 'postcss';
 

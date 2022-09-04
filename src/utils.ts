@@ -74,6 +74,8 @@ export const supportedLanguageIds = [
   'json',
   'html',
   'css',
+  'scss',
+  'less',
   'vue',
 ];
 export function isLanguageIdMatch(document: vscode.TextDocument) {

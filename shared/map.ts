@@ -6,6 +6,8 @@ export const extToCategoryIdMap = {
   '.lepus': 'javascript',
   '.vue': 'vue',
   '.css': 'css',
+  '.scss': 'css',
+  '.less': 'css',
   '.tsx': 'javascript',
   '.jsx': 'javascript',
 };
@@ -13,4 +15,6 @@ export const extToCategoryIdMap = {
 export const extToParserIdMap = {
   '.ts': 'typescript',
   '.tsx': 'typescript',
+  '.scss': 'postcss',
+  '.less': 'postcss',
 };

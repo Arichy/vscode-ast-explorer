@@ -1,6 +1,6 @@
 import defaultParserInterface from './utils/defaultCSSParserInterface';
 import pkg from 'css/package.json';
-import * as cssParse from 'css/lib/parse';
+import cssParse from 'css/lib/parse';
 
 const ID = 'rework';
 
