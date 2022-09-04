@@ -19,6 +19,8 @@ It allows you to inspect and interact with the ast of your code easily.
 - `json`
 - `html`
 - `css`
+- `scss`
+- `less`
 - `vue`
 
 # Default Configuration
