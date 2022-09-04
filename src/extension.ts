@@ -36,6 +36,7 @@ let webviewPanelSingleton: vscode.WebviewPanel = null;
 type Config = {
   highlightConfig: Partial<vscode.DecorationRenderOptions>;
   reuseWebview: boolean;
+  hideEditorTitleButton: boolean;
 };
 
 const defaultConfig: Config = {
@@ -44,6 +45,7 @@ const defaultConfig: Config = {
     borderRadius: '3px',
   },
   reuseWebview: false,
+  hideEditorTitleButton: false,
 };
 
 let config: Config = cloneDeep(defaultConfig);
@@ -213,6 +215,21 @@ function getWebviewPanel(
   }
 }
 
+function updateContext() {
+  // register context used in package.json editor/title
+  vscode.commands.executeCommand(
+    'setContext',
+    `${configurationKey}.supportedLanguageIds`,
+    supportedLanguageIds
+  );
+
+  vscode.commands.executeCommand(
+    'setContext',
+    `${configurationKey}.hideEditorTitleButton`,
+    config.hideEditorTitleButton
+  );
+}
+
 export function activate(context: vscode.ExtensionContext) {
   // @ts-ignore
   let customConfig = vscode.workspace.getConfiguration(
@@ -224,12 +241,7 @@ export function activate(context: vscode.ExtensionContext) {
     config.highlightConfig
   );
 
-  // register context used in package.json editor/title
-  vscode.commands.executeCommand(
-    'setContext',
-    `${configurationKey}.supportedLanguageIds`,
-    supportedLanguageIds
-  );
+  updateContext();
 
   // register commands
   const webviewDisposable = vscode.commands.registerCommand(
@@ -260,6 +272,8 @@ export function activate(context: vscode.ExtensionContext) {
     highlightDecorationType = vscode.window.createTextEditorDecorationType(
       config.highlightConfig
     );
+
+    updateContext();
   });
 
   // current editor's text changed

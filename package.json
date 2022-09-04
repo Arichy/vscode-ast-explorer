@@ -38,6 +38,11 @@
           "type": "boolean",
           "default": false,
           "description": "Enable singleton mode (recommended, only one webview)"
+        },
+        "ast.hideEditorTitleButton": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to hide the show-ast button in editor title"
         }
       }
     },
@@ -55,7 +60,7 @@
       "editor/title": [
         {
           "command": "vscode-ast-explorer.show",
-          "when": "editorLangId in ast.supportedLanguageIds",
+          "when": "editorLangId in ast.supportedLanguageIds && !ast.hideEditorTitleButton",
           "group": "navigation"
         }
       ]
