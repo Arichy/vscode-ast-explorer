@@ -159,7 +159,11 @@ function createWebviewPanel(
     { enableScripts: true, retainContextWhenHidden: true }
   );
 
-  webviewPanel.webview.html = getWebViewContent(context, 'web_dist/index.html');
+  webviewPanel.webview.html = getWebViewContent(
+    context,
+    'web_dist/index.html',
+    webviewPanel.webview
+  );
 
   // listen to messages sent by webview
   webviewPanel.webview.onDidReceiveMessage((message) => {

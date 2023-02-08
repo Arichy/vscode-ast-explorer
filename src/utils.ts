@@ -22,7 +22,8 @@ export const sendReduxToWebview = (
 
 export function getWebViewContent(
   context: vscode.ExtensionContext,
-  templatePath: string
+  templatePath: string,
+  webview: vscode.Webview
 ) {
   const resourcePath = path.join(context.extensionPath, templatePath);
   const dirPath = path.dirname(resourcePath);
@@ -33,15 +34,14 @@ export function getWebViewContent(
     // /(<link.+?href="|<script.+?src="|<img.+?src=")(.+?)"/g,
     /(<link.+?href="|<script.+?src="|<iframe.+?src="|<img.+?src=")(.+?)"/g,
     (m, $1, $2) => {
-      return (
-        $1 +
-        vscode.Uri.file(path.resolve(dirPath, $2))
-          .with({ scheme: 'vscode-resource' })
-          .toString() +
-        '"'
+      const newUrl = webview.asWebviewUri(
+        vscode.Uri.file(path.join(dirPath, $2))
       );
+
+      return $1 + newUrl + '"';
     }
   );
+  console.log(html);
 
   return html;
 }
