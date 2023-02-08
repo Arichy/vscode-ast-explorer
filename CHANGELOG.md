@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/Arichy/vscode-ast-explorer/compare/v1.2.0...v1.2.1) (2023-02-08)
+
+
+### Bug Fixes
+
+* local resource url ([90c7eea](https://github.com/Arichy/vscode-ast-explorer/commit/90c7eeaf0353fac20d346920368d5dcd375c99bf))
+
 ## [1.2.0](https://github.com/Arichy/vscode-ast-explorer/compare/v1.1.0...v1.2.0) (2022-09-04)
 
 

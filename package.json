@@ -3,7 +3,7 @@
   "displayName": "vscode-ast-explorer",
   "description": "Ast explorer as vscode extension.",
   "author": "Arichy",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "MIT",
   "engines": {
     "vscode": "^1.61.0"
