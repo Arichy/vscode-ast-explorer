@@ -35,7 +35,7 @@
       "script": "watch-web",
       "problemMatcher": "$ts-webpack-watch",
       "isBackground": true,
-      "label": "npm: watch-web",
+      "label": "npm: watch:web",
       "presentation": {
         "reveal": "never"
       },

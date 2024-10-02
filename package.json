@@ -68,17 +68,18 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "yarn run compile",
-    "compile-ts": "tsc -p ./",
+    "vscode:prepublish": "yarn build",
+    "build": "yarn build:web && yarn build:extension",
+    "build:extension": "rm -rf dist && cross-env NODE_ENV=production webpack --mode production",
+    "build:web": "cd astexplorer/website && yarn build",
+    "release": "standard-version",
     "watch": "tsc -watch -p ./",
+    "build-ts": "tsc -p ./",
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
-    "compile-web": "cd web && yarn build",
-    "watch-web": "cd web && yarn watch",
+    "watch:web": "cd astexplorer/website && yarn watch",
     "webpack-dev": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "compile": "rm -rf dist && cross-env NODE_ENV=production webpack --mode production",
-    "release": "standard-version",
     "updateDeps": "node scripts/updateWebDependencies.js"
   },
   "devDependencies": {
