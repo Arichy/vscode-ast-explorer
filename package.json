@@ -69,7 +69,7 @@
   },
   "scripts": {
     "vscode:prepublish": "yarn build",
-    "build": "yarn build:web && yarn build:extension",
+    "build": "yarn build:extension",
     "build:extension": "rm -rf dist && cross-env NODE_ENV=production webpack --mode production",
     "build:web": "cd astexplorer/website && yarn build",
     "release": "standard-version",
@@ -79,8 +79,7 @@
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "watch:web": "cd astexplorer/website && yarn watch",
-    "webpack-dev": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "updateDeps": "node scripts/updateWebDependencies.js"
+    "webpack-dev": "cross-env NODE_ENV=development webpack --mode development --watch"
   },
   "devDependencies": {
     "@types/glob": "^7.1.4",

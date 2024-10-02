@@ -16,5 +16,5 @@
     // "noUnusedParameters": true,  /* Report errors on unused parameters. */
   },
   "exclude": ["node_modules", ".vscode-test", "web"],
-  "include": ["web/src/store/actions.js", "src"]
+  "include": ["astexplorer/website/src/store/actions.js", "src"]
 }

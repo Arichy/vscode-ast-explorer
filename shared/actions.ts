@@ -1,4 +1,4 @@
-export * from '../web/src/store/actions';
+export * from '../astexplorer/website/src/store/actions';
 
 // webview sends [react didmount] to vscode
 export const WEBVIEW_REACT_DIDMOUNT = 'WEBVIEW_REACT_DIDMOUNT';

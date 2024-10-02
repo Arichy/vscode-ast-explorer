@@ -36,11 +36,6 @@ It allows you to inspect and interact with the ast of your code easily.
 - `vue`
 - `yaml`
 
-
-
-
-
-
 ## Default Configuration
 
 ```json
@@ -52,4 +47,12 @@ It allows you to inspect and interact with the ast of your code easily.
   "ast.reuseWebview": false, // Does all ast open in one webview?
   "ast.hideEditorTitleButton": false // whether to hide the ast button in editor's title area, set to true if there are too many buttons in your title area.
 }
+```
+
+## Release
+```
+1. yarn build:web (The official astexplorer requires node 16 for some reasons, build extension and webview separately)
+2. yarn build
+3. vsce package
+4. vsce publish
 ```
