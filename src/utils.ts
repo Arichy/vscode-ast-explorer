@@ -67,16 +67,32 @@ export function getWebviewPanelTitle(id: string): string {
 }
 
 export const supportedLanguageIds = [
+  'css',
+  'scss',
+  'less',
+
+  'go',
+  'graphql',
+  'html',
+  'java',
+  
   'javascript',
   'typescript',
   'typescriptreact',
   'javascriptreact',
   'json',
-  'html',
-  'css',
-  'scss',
-  'less',
+  
+  'lua',
+  'markdown',
+  'php',
+  'python',
+  'rust',
+  'scala',
+  'sql',
+  'svelte',
+  'thrift',
   'vue',
+  'yaml',
 ];
 export function isLanguageIdMatch(document: vscode.TextDocument) {
   return vscode.languages.match(

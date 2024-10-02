@@ -8,5 +8,6 @@ vsc-extension-quickstart.md
 **/.eslintrc.json
 **/*.map
 **/*.ts
-web
 node_modules
+astexplorer/**
+!astexplorer/out/**

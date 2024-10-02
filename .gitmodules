@@ -1,0 +1,3 @@
+[submodule "astexplorer"]
+	path = astexplorer
+	url = git@github.com:Arichy/astexplorer.git

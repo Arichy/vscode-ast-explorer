@@ -1,4 +1,4 @@
-export * from '../web/src/store/actions';
+export * from '../astexplorer/website/src/store/actions';
 
 // webview sends [react didmount] to vscode
 export const WEBVIEW_REACT_DIDMOUNT = 'WEBVIEW_REACT_DIDMOUNT';
@@ -30,6 +30,12 @@ export function sendFilePath(id: string, filepath: string) {
   return { type: SEND_FILEPATH, id, filepath };
 }
 
+// vscode send new url to webview
+export const URL_REPLACED = 'URL_REPLACED';
+export function urlReplaced(originalUrl, newUrl) {
+  return { type: URL_REPLACED, originalUrl, newUrl };
+}
+
 // webview sends [highlight info] to vscode
 export const HIGHLIGHT = 'HIGHLIGHT';
 export function highlight(id, range) {
@@ -40,4 +46,10 @@ export function highlight(id, range) {
 export const CLEAR_HIGHLIGHT = 'CLEAR_HIGHLIGHT';
 export function clearHighlight(id) {
   return { type: CLEAR_HIGHLIGHT, id };
+}
+
+// webview request replacing url
+export const REPLACE_URL = 'REPLACE_URL';
+export function replaceUrl(originalUrl) {
+  return { type: REPLACE_URL, originalUrl };
 }

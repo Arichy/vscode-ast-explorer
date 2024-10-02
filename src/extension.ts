@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as path from 'path';
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 
 import {
   WEBVIEW_REACT_DIDMOUNT,
@@ -12,6 +13,8 @@ import {
   setCursor,
   sendId,
   setId,
+  REPLACE_URL,
+  URL_REPLACED,
 } from '../shared/actions';
 
 const merge = require('lodash.merge');
@@ -161,7 +164,7 @@ function createWebviewPanel(
 
   webviewPanel.webview.html = getWebViewContent(
     context,
-    'web_dist/index.html',
+    'astexplorer/out/index.html',
     webviewPanel.webview
   );
 
@@ -181,6 +184,22 @@ function createWebviewPanel(
       case CLEAR_HIGHLIGHT:
         onClearHighlight(message);
         return;
+
+      case REPLACE_URL: {
+        const dirPath = path.join(context.extensionPath, 'astexplorer/out');
+        const { originalUrl } = message;
+        const newUrl = webviewPanel.webview.asWebviewUri(
+          vscode.Uri.file(path.join(dirPath, originalUrl))
+        ).toString();
+
+        webviewPanel.webview.postMessage({
+          type: URL_REPLACED,
+          originalUrl,
+          newUrl,
+        });
+
+        return;
+      }
     }
   });
 
