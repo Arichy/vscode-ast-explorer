@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/Arichy/vscode-ast-explorer/compare/v2.0.0...v2.0.1) (2024-10-02)
+
+
+### Bug Fixes
+
+* remove `web` ([513a5b3](https://github.com/Arichy/vscode-ast-explorer/commit/513a5b339238d9dec2cbba6ae485b8faedf951ce))
+
 ## 2.0.0 (2024-10-02)
 
 
