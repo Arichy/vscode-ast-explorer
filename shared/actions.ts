@@ -53,3 +53,17 @@ export const REPLACE_URL = 'REPLACE_URL';
 export function replaceUrl(originalUrl) {
   return { type: REPLACE_URL, originalUrl };
 }
+
+// vscode sends [resolved theme + user preference] to webview
+export type ThemeKind = 'light' | 'dark';
+export type ThemePreference = 'sync' | 'light' | 'dark';
+export const SEND_THEME = 'SEND_THEME';
+export function sendTheme(theme: ThemeKind, preference: ThemePreference) {
+  return { type: SEND_THEME, theme, preference };
+}
+
+// webview asks vscode to persist a new theme preference
+export const SET_THEME_PREFERENCE = 'SET_THEME_PREFERENCE';
+export function setThemePreference(preference: ThemePreference) {
+  return { type: SET_THEME_PREFERENCE, preference };
+}

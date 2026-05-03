@@ -15,6 +15,11 @@ import {
   setId,
   REPLACE_URL,
   URL_REPLACED,
+  SEND_THEME,
+  SET_THEME_PREFERENCE,
+  sendTheme,
+  ThemeKind,
+  ThemePreference,
 } from '../shared/actions';
 
 const merge = require('lodash.merge');
@@ -40,6 +45,7 @@ type Config = {
   highlightConfig: Partial<vscode.DecorationRenderOptions>;
   reuseWebview: boolean;
   hideEditorTitleButton: boolean;
+  theme: ThemePreference;
 };
 
 const defaultConfig: Config = {
@@ -49,6 +55,7 @@ const defaultConfig: Config = {
   },
   reuseWebview: false,
   hideEditorTitleButton: false,
+  theme: 'sync',
 };
 
 let config: Config = cloneDeep(defaultConfig);
@@ -58,6 +65,53 @@ let highlightDecorationType = vscode.window.createTextEditorDecorationType(
 );
 
 // --- section start: bridge ---
+
+/**
+ * @description resolve the effective theme (light|dark) from preference + vscode state
+ */
+const resolveTheme = (): ThemeKind => {
+  if (config.theme === 'light') {
+    return 'light';
+  }
+  if (config.theme === 'dark') {
+    return 'dark';
+  }
+  // 'sync' with vscode
+  const kind = vscode.window.activeColorTheme.kind;
+  if (
+    kind === vscode.ColorThemeKind.Dark ||
+    kind === vscode.ColorThemeKind.HighContrast
+  ) {
+    return 'dark';
+  }
+  return 'light';
+};
+
+/**
+ * @description iterate every live webview panel (singleton + per-doc map)
+ */
+const forEachWebview = (cb: (panel: vscode.WebviewPanel) => void) => {
+  if (webviewPanelSingleton) {
+    cb(webviewPanelSingleton);
+  }
+  for (const { webviewPanel } of map.values()) {
+    if (webviewPanel) {
+      cb(webviewPanel);
+    }
+  }
+};
+
+/**
+ * @description push current theme info to a single webview (or all if omitted)
+ */
+const sendThemeToWebview = (webview?: vscode.Webview) => {
+  const message = sendTheme(resolveTheme(), config.theme);
+  if (webview) {
+    webview.postMessage(message);
+    return;
+  }
+  forEachWebview((panel) => panel.webview.postMessage(message));
+};
 
 /**
  * @description send editor's information (language, relative path,current text) to webview
@@ -165,7 +219,8 @@ function createWebviewPanel(
   webviewPanel.webview.html = getWebViewContent(
     context,
     'astexplorer/out/index.html',
-    webviewPanel.webview
+    webviewPanel.webview,
+    { theme: resolveTheme(), preference: config.theme }
   );
 
   // listen to messages sent by webview
@@ -175,6 +230,7 @@ function createWebviewPanel(
       case WEBVIEW_REACT_DIDMOUNT:
         // webview react didmount(useEffect)
         sendEditorInfoToWebview(id, editorWhenCreateWebview);
+        sendThemeToWebview(webviewPanel.webview);
         return;
 
       case HIGHLIGHT:
@@ -198,6 +254,22 @@ function createWebviewPanel(
           newUrl,
         });
 
+        return;
+      }
+
+      case SET_THEME_PREFERENCE: {
+        const { preference } = message as { preference: ThemePreference };
+        if (
+          preference !== 'sync' &&
+          preference !== 'light' &&
+          preference !== 'dark'
+        ) {
+          return;
+        }
+        // write it back to user settings; onDidChangeConfiguration will rebroadcast
+        vscode.workspace
+          .getConfiguration(configurationKey)
+          .update('theme', preference, vscode.ConfigurationTarget.Global);
         return;
       }
     }
@@ -290,6 +362,7 @@ export function activate(context: vscode.ExtensionContext) {
       configurationKey
     ) as Config;
 
+    const prevTheme = config.theme;
     config = merge(cloneDeep(defaultConfig), newConfig);
 
     highlightDecorationType = vscode.window.createTextEditorDecorationType(
@@ -297,6 +370,21 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     updateContext();
+
+    // broadcast new theme whenever the theme preference section changed
+    if (
+      e.affectsConfiguration(`${configurationKey}.theme`) ||
+      prevTheme !== config.theme
+    ) {
+      sendThemeToWebview();
+    }
+  });
+
+  // vscode color theme changed — only matters when user picked "sync"
+  vscode.window.onDidChangeActiveColorTheme(() => {
+    if (config.theme === 'sync') {
+      sendThemeToWebview();
+    }
   });
 
   // current editor's text changed

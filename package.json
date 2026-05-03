@@ -44,6 +44,17 @@
           "type": "boolean",
           "default": false,
           "description": "Whether to hide the show-ast button in editor title"
+        },
+        "ast.theme": {
+          "type": "string",
+          "enum": ["sync", "light", "dark"],
+          "enumDescriptions": [
+            "Sync with VS Code color theme",
+            "Always use light theme",
+            "Always use dark theme"
+          ],
+          "default": "sync",
+          "description": "Color theme used by the AST explorer webview"
         }
       }
     },

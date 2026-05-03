@@ -23,7 +23,8 @@ export const sendReduxToWebview = (
 export function getWebViewContent(
   context: vscode.ExtensionContext,
   templatePath: string,
-  webview: vscode.Webview
+  webview: vscode.Webview,
+  initialTheme?: { theme: 'light' | 'dark'; preference: 'sync' | 'light' | 'dark' }
 ) {
   const resourcePath = path.join(context.extensionPath, templatePath);
   const dirPath = path.dirname(resourcePath);
@@ -41,6 +42,22 @@ export function getWebViewContent(
       return $1 + newUrl + '"';
     }
   );
+
+  // Inject the initial resolved theme into the HTML so the very first paint
+  // picks up the right colors (avoids a light-theme flash before the webview
+  // round-trips SEND_THEME from the extension host).
+  if (initialTheme) {
+    const payload = JSON.stringify(initialTheme);
+    const injection =
+      `<script>window.__VSCODE_AST_THEME__=${payload};` +
+      `document.documentElement.setAttribute('data-theme', ${JSON.stringify(initialTheme.theme)});</script>`;
+    if (html.includes('</head>')) {
+      html = html.replace('</head>', injection + '</head>');
+    } else {
+      html = injection + html;
+    }
+  }
+
   console.log(html);
 
   return html;
